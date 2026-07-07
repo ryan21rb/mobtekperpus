@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/himaifiw/public_html
+    - /bin/cp -R backend $DEPLOYPATH
+    - /bin/cp -R frontend $DEPLOYPATH
