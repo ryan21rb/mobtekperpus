@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart'; // Untuk fungsi launchUrl
 import 'dart:html' as html; // Jika Anda compile untuk Flutter Web
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
+import 'admin_activity_screen.dart';
 
 class MateriScreen extends StatefulWidget {
   const MateriScreen({super.key});
@@ -1723,14 +1724,14 @@ class _MateriScreenState extends State<MateriScreen> {
     if (_currentIndex == 0) return _buildBukuView();
     if (_currentIndex == 1) return _buildUsersView();
     if (_currentIndex == 2) return _buildPeminjamanView();
-    if (_currentIndex == 3) return _buildLaporanView(); // Tampilkan view laporan jika index = 3
-    if (_currentIndex == 4) return _buildCategoriesView(); // Tampilkan view kategori jika index = 4
+    if (_currentIndex == 3) return _buildLaporanView();
+    if (_currentIndex == 4) return _buildCategoriesView();
+    if (_currentIndex == 5) return const AdminActivityScreen();
     return const SizedBox.shrink();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Ganti teks judul di bawah ini
     String appBarTitle = "Perpus - Koleksi Buku";
     if (_currentIndex == 1) {
       appBarTitle = "Perpus - Data Anggota & Petugas";
@@ -1743,6 +1744,9 @@ class _MateriScreenState extends State<MateriScreen> {
     }
     if (_currentIndex == 4) {
       appBarTitle = "Perpus - Data Kategori Buku";
+    }
+    if (_currentIndex == 5) {
+      appBarTitle = "Perpus - Aktivitas Sistem";
     }
 
     return Scaffold(
@@ -1891,6 +1895,11 @@ class _MateriScreenState extends State<MateriScreen> {
                       icon: Icons.assessment_rounded,
                       title: 'Laporan',
                       index: 3,
+                    ),
+                    _buildDrawerItem(
+                      icon: Icons.history_toggle_off_rounded,
+                      title: 'Aktivitas Sistem',
+                      index: 5,
                     ),
                     const Divider(color: Colors.white12, height: 1),
                     Padding(

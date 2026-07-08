@@ -379,25 +379,25 @@ class _PetugasReturnQueueScreenState extends State<PetugasReturnQueueScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const Color temaBiruGelap = Color(0xFF1A237E);
+    const Color temaIndigo = Color(0xFF4F46E5);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
         title: const Text(
-          'Perpus - Antrian Pengembalian',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          'Antrian Pengembalian',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 0.3),
         ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF1A237E), Color(0xFF0A0E2E)], // Premium Blue Indigo Gradient
+              colors: [Color(0xFF4F46E5), Color(0xFF1E1B4B)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
         ),
-        elevation: 2,
+        elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       drawer: const PetugasDrawer(currentRoute: '/petugas-return-queue'),
@@ -409,9 +409,9 @@ class _PetugasReturnQueueScreenState extends State<PetugasReturnQueueScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircularProgressIndicator(color: temaBiruGelap),
-                  const SizedBox(height: 16),
-                  const Text('Memuat antrian pengembalian...'),
+                  CircularProgressIndicator(color: temaIndigo),
+                  SizedBox(height: 16),
+                  Text('Memuat antrian pengembalian...', style: TextStyle(color: Colors.grey)),
                 ],
               ),
             );
@@ -423,16 +423,16 @@ class _PetugasReturnQueueScreenState extends State<PetugasReturnQueueScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.error_outline,
+                    Icons.error_outline_rounded,
                     size: 64,
                     color: Colors.red.shade300,
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Terjadi kesalahan',
+                    'Terjadi kesalahan data',
                     style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.bold,
                       color: Colors.grey.shade700,
                     ),
                   ),
@@ -455,14 +455,14 @@ class _PetugasReturnQueueScreenState extends State<PetugasReturnQueueScreen> {
                   Icon(
                     Icons.inbox_outlined,
                     size: 80,
-                    color: Colors.blue.shade200,
+                    color: Colors.indigo.shade100,
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Tidak Ada Antrian Pengembalian',
+                    'Antrian Bersih',
                     style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.bold,
                       color: Colors.grey.shade700,
                     ),
                   ),
@@ -484,34 +484,36 @@ class _PetugasReturnQueueScreenState extends State<PetugasReturnQueueScreen> {
 
           return CustomScrollView(
             slivers: [
-              // Header Summary
+              // Header Summary Card
               SliverToBoxAdapter(
                 child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
+                  decoration: const BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [temaBiruGelap, temaBiruGelap.withOpacity(0.85)],
+                      colors: [Color(0xFF4F46E5), Color(0xFF1E1B4B)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(28),
+                      bottomRight: Radius.circular(28),
                     ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildSummaryCard(
-                            'Antrian',
-                            pendingList.length.toString(),
-                            Icons.schedule,
-                            Colors.white,
-                          ),
-                          _buildSummaryCard(
-                            'Total Denda',
-                            _formatCurrency(totalDenda),
-                            Icons.attach_money,
-                            Colors.yellow.shade300,
-                          ),
-                        ],
+                      _buildSummaryCard(
+                        'Total Antrian',
+                        pendingList.length.toString(),
+                        Icons.schedule_rounded,
+                        Colors.white,
+                      ),
+                      Container(height: 40, width: 1, color: Colors.white24),
+                      _buildSummaryCard(
+                        'Estimasi Denda',
+                        _formatCurrency(totalDenda),
+                        Icons.monetization_on_outlined,
+                        Colors.yellow.shade400,
                       ),
                     ],
                   ),
@@ -519,7 +521,7 @@ class _PetugasReturnQueueScreenState extends State<PetugasReturnQueueScreen> {
               ),
               // List Items
               SliverPadding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(16),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
                     final item = pendingList[index];
@@ -527,219 +529,231 @@ class _PetugasReturnQueueScreenState extends State<PetugasReturnQueueScreen> {
                     final estimatedFine = item['estimated_fine'] ?? 0;
                     final isOverdue = daysLate > 0;
 
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.04),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                        border: Border.all(color: Colors.grey.shade100),
                       ),
-                      elevation: isOverdue ? 4 : 2,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                          border: Border(
-                            left: BorderSide(
-                              color: isOverdue
-                                  ? Colors.red.shade600
-                                  : Colors.blue.shade600,
-                              width: 4,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              left: BorderSide(
+                                color: isOverdue
+                                    ? const Color(0xFFEF4444)
+                                    : const Color(0xFF4F46E5),
+                                width: 5,
+                              ),
                             ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Book Title
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      item['title'] ?? 'Buku Tidak Diketahui',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  if (isOverdue)
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 4,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.red.shade100,
-                                        borderRadius: BorderRadius.circular(6),
-                                      ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Book Title
+                                Row(
+                                  children: [
+                                    Expanded(
                                       child: Text(
-                                        'TERLAMBAT',
-                                        style: TextStyle(
-                                          color: Colors.red.shade700,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 11,
+                                        item['title'] ?? 'Buku Tidak Diketahui',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          color: Color(0xFF0F172A),
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    if (isOverdue)
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 4,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red.shade50,
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                        child: Text(
+                                          'TERLAMBAT',
+                                          style: TextStyle(
+                                            color: Colors.red.shade700,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-                              // User Info
-                              Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade50,
-                                  borderRadius: BorderRadius.circular(8),
+                                  ],
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                const SizedBox(height: 12),
+                                // User Info Box
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade50,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      _buildInfoRow(
+                                        Icons.person_outline_rounded,
+                                        'Peminjam',
+                                        item['name'] ?? 'N/A',
+                                      ),
+                                      const SizedBox(height: 8),
+                                      _buildInfoRow(
+                                        Icons.email_outlined,
+                                        'Email',
+                                        item['email'] ?? 'N/A',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                // Due Date & Days Late Cards
+                                Row(
                                   children: [
-                                    _buildInfoRow(
-                                      Icons.person_outline,
-                                      'Peminjam',
-                                      item['name'] ?? 'N/A',
+                                    Expanded(
+                                      child: _buildInfoCard(
+                                        'Jatuh Tempo',
+                                        item['due_date'] ?? 'N/A',
+                                        Icons.calendar_today_rounded,
+                                        Colors.blue.shade50.withOpacity(0.5),
+                                      ),
                                     ),
-                                    const SizedBox(height: 8),
-                                    _buildInfoRow(
-                                      Icons.email_outlined,
-                                      'Email',
-                                      item['email'] ?? 'N/A',
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: _buildInfoCard(
+                                        'Hari Telat',
+                                        '$daysLate hari',
+                                        Icons.history_toggle_off_rounded,
+                                        isOverdue
+                                            ? Colors.red.shade50.withOpacity(0.5)
+                                            : Colors.green.shade50.withOpacity(0.5),
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              const SizedBox(height: 12),
-                              // Due Date & Days Late
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: _buildInfoCard(
-                                      'Jatuh Tempo',
-                                      item['due_date'] ?? 'N/A',
-                                      Icons.calendar_today_outlined,
-                                      Colors.blue.shade50,
+                                const SizedBox(height: 14),
+                                // Fine Info Box
+                                if (estimatedFine > 0)
+                                  Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.red.shade50,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Colors.red.shade200,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: _buildInfoCard(
-                                      'Terlambat',
-                                      '$daysLate hari',
-                                      Icons.history_outlined,
-                                      isOverdue
-                                          ? Colors.red.shade50
-                                          : Colors.green.shade50,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-                              // Fine Info
-                              if (estimatedFine > 0)
-                                Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: Colors.red.shade50,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      color: Colors.red.shade200,
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.warning_amber_rounded,
-                                            color: Colors.red.shade600,
-                                            size: 20,
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Text(
-                                            'Estimasi Denda',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w600,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.warning_amber_rounded,
                                               color: Colors.red.shade700,
+                                              size: 20,
                                             ),
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              'Estimasi Denda',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red.shade700,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          _formatCurrency(estimatedFine),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                            color: Colors.red.shade700,
                                           ),
-                                        ],
-                                      ),
-                                      Text(
-                                        _formatCurrency(estimatedFine),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: Colors.red.shade700,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              else
-                                Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: Colors.green.shade50,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      color: Colors.green.shade200,
+                                      ],
                                     ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.check_circle_outline,
-                                        color: Colors.green.shade600,
-                                        size: 20,
+                                  )
+                                else
+                                  Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.green.shade50,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Colors.green.shade200,
                                       ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        'Tidak ada denda',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.check_circle_outline_rounded,
                                           color: Colors.green.shade700,
+                                          size: 20,
                                         ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          'Bebas dari denda keterlambatan',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.green.shade700,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                const SizedBox(height: 16),
+                                // Action Button
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 48,
+                                  child: ElevatedButton.icon(
+                                    onPressed: () => _verifyReturn(
+                                      item['id'],
+                                      item['title'] ?? 'Buku',
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF4F46E5),
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              const SizedBox(height: 16),
-                              // Action Button
-                              SizedBox(
-                                width: double.infinity,
-                                height: 48,
-                                child: ElevatedButton.icon(
-                                  onPressed: () => _verifyReturn(
-                                    item['id'],
-                                    item['title'] ?? 'Buku',
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blue.shade600,
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
                                     ),
-                                  ),
-                                  icon: const Icon(
-                                    Icons.verified_user,
-                                    color: Colors.white,
-                                  ),
-                                  label: const Text(
-                                    'Verifikasi Pengembalian',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
+                                    icon: const Icon(
+                                      Icons.verified_user_rounded,
                                       color: Colors.white,
+                                      size: 18,
+                                    ),
+                                    label: const Text(
+                                      'Verifikasi Pengembalian',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -762,7 +776,7 @@ class _PetugasReturnQueueScreenState extends State<PetugasReturnQueueScreen> {
   ) {
     return Column(
       children: [
-        Icon(icon, color: color, size: 32),
+        Icon(icon, color: color, size: 28),
         const SizedBox(height: 8),
         Text(
           value,
@@ -784,21 +798,22 @@ class _PetugasReturnQueueScreenState extends State<PetugasReturnQueueScreen> {
   Widget _buildInfoRow(IconData icon, String label, String value) {
     return Row(
       children: [
-        Icon(icon, size: 16, color: Colors.grey.shade600),
+        Icon(icon, size: 16, color: Colors.grey.shade500),
         const SizedBox(width: 8),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 label,
-                style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
+                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
               ),
               Text(
                 value,
                 style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  color: Color(0xFF334155),
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -820,11 +835,11 @@ class _PetugasReturnQueueScreenState extends State<PetugasReturnQueueScreen> {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         children: [
-          Icon(icon, size: 18, color: Colors.grey.shade600),
+          Icon(icon, size: 18, color: Colors.indigo.shade600),
           const SizedBox(height: 6),
           Text(
             label,
@@ -834,7 +849,7 @@ class _PetugasReturnQueueScreenState extends State<PetugasReturnQueueScreen> {
           const SizedBox(height: 4),
           Text(
             value,
-            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF0F172A)),
             textAlign: TextAlign.center,
           ),
         ],

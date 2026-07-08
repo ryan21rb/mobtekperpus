@@ -123,7 +123,7 @@ class _PetugasDrawerState extends State<PetugasDrawer> {
       child: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF1A237E), Color(0xFF0A0E2E)], // Premium Blue Indigo Gradient
+            colors: [Color(0xFF1E1B4B), Color(0xFF0F172A)], // Modern Midnight Slate Gradient
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -151,7 +151,7 @@ class _PetugasDrawerState extends State<PetugasDrawer> {
                             ? _userName![0].toUpperCase()
                             : 'P',
                         style: const TextStyle(
-                          color: Color(0xFF1A237E),
+                          color: Color(0xFF4F46E5), // Modern Indigo Primary
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                         ),

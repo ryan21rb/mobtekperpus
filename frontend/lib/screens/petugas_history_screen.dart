@@ -105,30 +105,30 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const Color temaBiruGelap = Color(0xFF1A237E);
+    const Color temaIndigo = Color(0xFF4F46E5);
     bool isWideScreen = MediaQuery.of(context).size.width > 700;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: const Color(0xFFF8FAFC), // Modern Slate Light
       appBar: AppBar(
         title: const Text(
-          'Perpus - Riwayat Pengembalian',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          'Riwayat Pengembalian',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 0.3),
         ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF1A237E), Color(0xFF0A0E2E)], // Premium Blue Indigo Gradient
+              colors: [Color(0xFF4F46E5), Color(0xFF1E1B4B)], // Premium Slate Indigo Gradient
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
         ),
-        elevation: 2,
+        elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.white),
+            icon: const Icon(Icons.refresh_rounded, color: Colors.white),
             onPressed: _loadHistoryData,
           ),
         ],
@@ -137,27 +137,36 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
       body: _isLoading
           ? const Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(temaBiruGelap),
+                valueColor: AlwaysStoppedAnimation<Color>(temaIndigo),
               ),
             )
           : RefreshIndicator(
               onRefresh: _loadHistoryData,
-              color: temaBiruGelap,
+              color: temaIndigo,
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 1. STATS WIDGET HEADER
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [temaBiruGelap, temaBiruGelap.withOpacity(0.85)],
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF4F46E5), Color(0xFF1E1B4B)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF4F46E5).withOpacity(0.15),
+                            blurRadius: 20,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
                       ),
                       child: Row(
                         children: [
@@ -168,7 +177,7 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
                                   "SUDAH KEMBALI",
                                   style: TextStyle(
                                     color: Colors.white70,
-                                    fontSize: 11,
+                                    fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 1.0,
                                   ),
@@ -177,13 +186,13 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(Icons.check_circle, color: Colors.white, size: 20),
+                                    const Icon(Icons.check_circle_rounded, color: Color(0xFF10B981), size: 20),
                                     const SizedBox(width: 6),
                                     Text(
                                       "$_totalReturnsCount Buku",
                                       style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -204,7 +213,7 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
                                   "DENDA TERKUMPUL",
                                   style: TextStyle(
                                     color: Colors.white70,
-                                    fontSize: 11,
+                                    fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                     letterSpacing: 1.0,
                                   ),
@@ -213,13 +222,13 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(Icons.monetization_on, color: Colors.yellow, size: 20),
+                                    Icon(Icons.monetization_on_rounded, color: Colors.yellow, size: 20),
                                     const SizedBox(width: 6),
                                     Text(
                                       _formatCurrency(_totalFinesAmount),
                                       style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -231,38 +240,44 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
-                    // 2. SEARCH BAR CARD
-                    Card(
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                        child: TextField(
-                          controller: _searchController,
-                          onChanged: _filterResults,
-                          decoration: InputDecoration(
-                            hintText: "Cari berdasarkan Judul Buku, Peminjam, atau ID...",
-                            hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-                            prefixIcon: const Icon(Icons.search, color: temaBiruGelap),
-                            suffixIcon: _searchController.text.isNotEmpty
-                                ? IconButton(
-                                    icon: const Icon(Icons.clear, color: Colors.grey),
-                                    onPressed: () {
-                                      _searchController.clear();
-                                      _filterResults('');
-                                    },
-                                  )
-                                : null,
-                            border: InputBorder.none,
+                    // 2. SEARCH BAR CONTAINER
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.04),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
                           ),
+                        ],
+                        border: Border.all(color: Colors.grey.shade100),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: TextField(
+                        controller: _searchController,
+                        onChanged: _filterResults,
+                        decoration: InputDecoration(
+                          hintText: "Cari judul buku, peminjam, atau ID...",
+                          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+                          prefixIcon: const Icon(Icons.search_rounded, color: temaIndigo),
+                          suffixIcon: _searchController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(Icons.clear_rounded, color: Colors.grey),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    _filterResults('');
+                                  },
+                                )
+                              : null,
+                          border: InputBorder.none,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
 
                     // 3. DATA TABLE CARD
                     const Text(
@@ -270,10 +285,10 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: temaBiruGelap,
+                        color: Color(0xFF0F172A),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 12),
 
                     _filteredReturns.isEmpty
                         ? Container(
@@ -283,11 +298,11 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.history_toggle_off, size: 64, color: Colors.grey.shade400),
+                                Icon(Icons.history_toggle_off_rounded, size: 64, color: Colors.grey.shade300),
                                 const SizedBox(height: 16),
                                 Text(
                                   "Tidak ditemukan riwayat pengembalian.",
-                                  style: TextStyle(color: Colors.grey.shade500, fontSize: 15),
+                                  style: TextStyle(color: Colors.grey.shade500, fontSize: 14, fontWeight: FontWeight.w500),
                                 ),
                               ],
                             ),
@@ -296,40 +311,42 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.08),
-                                  spreadRadius: 2,
+                                  color: Colors.black.withOpacity(0.04),
                                   blurRadius: 16,
                                   offset: const Offset(0, 4),
                                 ),
                               ],
+                              border: Border.all(color: Colors.grey.shade100),
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: SizedBox(
-                                  width: isWideScreen
-                                      ? MediaQuery.of(context).size.width - 32
-                                      : 850, // Minimum width for mobile scroll
-                                  child: DataTable(
-                                    headingRowColor: MaterialStateProperty.all(temaBiruGelap),
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        minWidth: constraints.maxWidth,
+                                      ),
+                                      child: DataTable(
+                                    headingRowColor: MaterialStateProperty.all(const Color(0xFF1E1B4B)),
                                     headingTextStyle: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 14,
+                                      fontSize: 13,
                                     ),
                                     columns: const [
-                                      DataColumn(label: Text('No', style: TextStyle(color: Colors.white))),
-                                      DataColumn(label: Text('ID Trx', style: TextStyle(color: Colors.white))),
-                                      DataColumn(label: Text('Buku', style: TextStyle(color: Colors.white))),
-                                      DataColumn(label: Text('Peminjam', style: TextStyle(color: Colors.white))),
-                                      DataColumn(label: Text('Tgl Pinjam', style: TextStyle(color: Colors.white))),
-                                      DataColumn(label: Text('Tgl Kembali', style: TextStyle(color: Colors.white))),
-                                      DataColumn(label: Text('Denda', style: TextStyle(color: Colors.white))),
-                                      DataColumn(label: Text('Status', style: TextStyle(color: Colors.white))),
+                                      DataColumn(label: Text('No')),
+                                      DataColumn(label: Text('ID Trx')),
+                                      DataColumn(label: Text('Buku')),
+                                      DataColumn(label: Text('Peminjam')),
+                                      DataColumn(label: Text('Tgl Pinjam')),
+                                      DataColumn(label: Text('Tgl Kembali')),
+                                      DataColumn(label: Text('Denda')),
+                                      DataColumn(label: Text('Status')),
                                     ],
                                     rows: List.generate(_filteredReturns.length, (index) {
                                       final item = _filteredReturns[index];
@@ -344,7 +361,7 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
                                               constraints: const BoxConstraints(maxWidth: 220),
                                               child: Text(
                                                 item['book_title'] ?? '-',
-                                                style: const TextStyle(fontWeight: FontWeight.w600),
+                                                style: const TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF1E293B)),
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
@@ -357,28 +374,26 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
                                             Text(
                                               denda > 0 ? _formatCurrency(denda) : 'Bebas Denda',
                                               style: TextStyle(
-                                                color: denda > 0 ? Colors.red.shade700 : Colors.green.shade700,
-                                                fontWeight: denda > 0 ? FontWeight.bold : FontWeight.normal,
+                                                color: denda > 0 ? const Color(0xFFEF4444) : const Color(0xFF10B981),
+                                                fontWeight: denda > 0 ? FontWeight.bold : FontWeight.w600,
                                               ),
                                             ),
                                           ),
                                           DataCell(
-                                            Chip(
-                                              label: const Text(
+                                            Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xFF10B981).withOpacity(0.08),
+                                                borderRadius: BorderRadius.circular(12),
+                                              ),
+                                              child: const Text(
                                                 "KEMBALI",
                                                 style: TextStyle(
-                                                  color: Colors.green,
+                                                  color: Color(0xFF059669),
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 11,
+                                                  fontSize: 10,
                                                 ),
                                               ),
-                                              backgroundColor: Colors.green.shade50,
-                                              side: BorderSide.none,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(8),
-                                              ),
-                                              padding: EdgeInsets.zero,
-                                              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                             ),
                                           ),
                                         ],
@@ -387,8 +402,10 @@ class _PetugasHistoryScreenState extends State<PetugasHistoryScreen> {
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
+                            );
+                          },
+                        ),
+                      ),
                   ],
                 ),
               ),

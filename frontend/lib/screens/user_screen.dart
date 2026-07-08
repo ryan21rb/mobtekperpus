@@ -319,96 +319,155 @@ class _UserScreenState extends State<UserScreen> {
       builder: (context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(24),
           ),
           contentPadding: const EdgeInsets.all(24),
-          content: SizedBox(
-            width: 500,
-            child: Row(
+          content: Container(
+            width: double.maxFinite,
+            constraints: const BoxConstraints(maxWidth: 420),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  height: 180,
-                  width: 130,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: imagePath != null && imagePath.isNotEmpty
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            _getImageUrl(imagePath),
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const Icon(
-                                  Icons.broken_image,
-                                  size: 50,
-                                  color: Colors.grey,
-                                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 150,
+                      width: 110,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.06),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
                           ),
-                        )
-                      : const Icon(
-                          Icons.book,
-                          size: 50,
-                          color: Color(0xFF1A237E),
-                        ),
+                        ],
+                      ),
+                      child: imagePath != null && imagePath.isNotEmpty
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.network(
+                                _getImageUrl(imagePath),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(
+                                      Icons.broken_image_rounded,
+                                      size: 40,
+                                      color: Colors.grey,
+                                    ),
+                              ),
+                            )
+                          : const Icon(
+                              Icons.book_rounded,
+                              size: 44,
+                              color: Color(0xFF4F46E5),
+                            ),
+                    ),
+                    const SizedBox(width: 18),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            book['title'] ?? 'Tanpa Judul',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF0F172A),
+                              height: 1.3,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF4F46E5).withOpacity(0.08),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              book['category'] ?? 'Umum',
+                              style: const TextStyle(
+                                color: Color(0xFF4F46E5),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Icon(Icons.inventory_2_outlined, size: 16, color: Colors.grey.shade600),
+                              const SizedBox(width: 6),
+                              Text(
+                                "Stok: ${book['stock'] ?? '0'}",
+                                style: TextStyle(
+                                  color: Colors.grey.shade700,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          Row(
+                            children: [
+                              Icon(Icons.person_outline_rounded, size: 16, color: Colors.grey.shade600),
+                              const SizedBox(width: 6),
+                              Expanded(
+                                child: Text(
+                                  book['author'] ?? 'Anonim',
+                                  style: TextStyle(
+                                    color: Colors.grey.shade700,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        book['title'] ?? 'Tanpa Judul',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1A237E),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Chip(
-                        label: Text("Stok Tersedia: ${book['stock'] ?? '0'}"),
-                        backgroundColor: Colors.blue.shade50,
-                        labelStyle: TextStyle(
-                          color: Colors.blue.shade800,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      const Text(
-                        "Deskripsi Lengkap:",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        book['description'] ??
-                            'Tidak ada deskripsi mengenai materi ini.',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: Colors.black87,
-                          height: 1.4,
-                        ),
-                        maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                const SizedBox(height: 24),
+                const Text(
+                  "Tentang Buku / Materi",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: Color(0xFF0F172A),
                   ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  book['description'] ?? 'Tidak ada deskripsi mengenai materi ini.',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF475569),
+                    height: 1.5,
+                  ),
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
           ),
+          actionsPadding: const EdgeInsets.only(bottom: 20, right: 20, left: 20),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              style: TextButton.styleFrom(foregroundColor: Colors.grey.shade600),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.grey.shade600,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              ),
               child: const Text('Tutup', style: TextStyle(fontWeight: FontWeight.bold)),
             ),
             ElevatedButton(
@@ -419,14 +478,18 @@ class _UserScreenState extends State<UserScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: isBorrowed
                     ? const Color(0xFFEF4444)
-                    : const Color(0xFF1A237E),
+                    : const Color(0xFF4F46E5),
                 foregroundColor: Colors.white,
                 elevation: 0,
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: Text(isBorrowed ? 'Kembalikan Buku' : 'Pinjam Buku'),
+              child: Text(
+                isBorrowed ? 'Kembalikan Buku' : 'Pinjam Buku',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         );
@@ -435,7 +498,7 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   void _showNotificationSnackBar(String message, Color color) {
-    final isSuccess = color == Colors.green || color.value == Colors.green.value;
+    final isSuccess = color == Colors.green || color.value == Colors.green.value || color.value == const Color(0xFF1A237E).value;
     final isWarning = color == Colors.orange || color.value == Colors.orange.value || color == Colors.amber;
     final isError = color == Colors.red || color.value == Colors.red.shade700.value;
     CustomToast.show(
@@ -453,7 +516,7 @@ class _UserScreenState extends State<UserScreen> {
       builder: (BuildContext dialogContext) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
           ),
           title: Row(
             children: [
@@ -467,7 +530,7 @@ class _UserScreenState extends State<UserScreen> {
               ),
               const SizedBox(width: 12),
               const Text(
-                'Konfirmasi Logout',
+                'Konfirmasi Keluar',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
             ],
@@ -516,113 +579,161 @@ class _UserScreenState extends State<UserScreen> {
   Widget _buildBooksView() {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Color(0xFF1A237E), Color(0xFF0A0E2E)], // Premium Blue Indigo Gradient
+                colors: [Color(0xFF4F46E5), Color(0xFF1E1B4B)],
+              ),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(32),
+                bottomRight: Radius.circular(32),
               ),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+            padding: const EdgeInsets.fromLTRB(24, 28, 24, 36),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Selamat Datang! 👋',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Selamat Datang! 👋',
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        const Text(
+                          'Temukan Koleksi Pustaka',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Temukan Koleksi Buku Terbaik',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 28),
                 TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
-                    hintText: 'Cari judul, penulis, atau kategori...',
-                    hintStyle: TextStyle(color: Colors.grey.shade400),
-                    prefixIcon: Icon(Icons.search, color: Colors.grey.shade600),
+                    hintText: 'Cari judul buku, penulis, atau kategori...',
+                    hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+                    prefixIcon: Icon(Icons.search_rounded, color: Colors.grey.shade500),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(16),
                       borderSide: BorderSide.none,
                     ),
                     contentPadding: const EdgeInsets.symmetric(
-                      vertical: 14,
+                      vertical: 16,
                       horizontal: 20,
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
+                const SizedBox(height: 24),
+                const Text(
+                  "Kategori Buku",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
+                    fontSize: 14,
                   ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: _selectedCategory,
-                      hint: const Row(
-                        children: [
-                          Icon(Icons.category_outlined, color: Colors.grey, size: 20),
-                          SizedBox(width: 8),
-                          Text("Pilih Kategori / Genre", style: TextStyle(color: Colors.black54)),
-                        ],
-                      ),
-                      isExpanded: true,
-                      dropdownColor: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                      icon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-                      items: [
-                        const DropdownMenuItem<String>(
-                          value: null,
-                          child: Row(
-                            children: [
-                              Icon(Icons.all_inclusive, color: Color(0xFF1A237E), size: 20),
-                              SizedBox(width: 8),
-                              Text("Semua Kategori", style: TextStyle(fontWeight: FontWeight.w600)),
-                            ],
+                ),
+                const SizedBox(height: 12),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedCategory = null;
+                            _runLiveSearch();
+                          });
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: _selectedCategory == null
+                                ? Colors.white
+                                : Colors.white.withOpacity(0.12),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: _selectedCategory == null
+                                  ? Colors.transparent
+                                  : Colors.white.withOpacity(0.15),
+                            ),
+                          ),
+                          child: Text(
+                            "Semua",
+                            style: TextStyle(
+                              color: _selectedCategory == null
+                                  ? const Color(0xFF4F46E5)
+                                  : Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                            ),
                           ),
                         ),
-                        ..._categories.map((cat) {
-                          return DropdownMenuItem<String>(
-                            value: cat['name'] as String,
-                            child: Row(
-                              children: [
-                                const Icon(Icons.label_outline, color: Color(0xFF1A237E), size: 20),
-                                SizedBox(width: 8),
-                                Text(cat['name'] as String),
-                              ],
+                      ),
+                      ..._categories.map((cat) {
+                        final catName = cat['name'] as String;
+                        final isSelected = _selectedCategory == catName;
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedCategory = catName;
+                              _runLiveSearch();
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? Colors.white
+                                  : Colors.white.withOpacity(0.12),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: isSelected
+                                    ? Colors.transparent
+                                    : Colors.white.withOpacity(0.15),
+                              ),
                             ),
-                          );
-                        }),
-                      ],
-                      onChanged: (val) {
-                        setState(() {
-                          _selectedCategory = val;
-                          _runLiveSearch();
-                        });
-                      },
-                    ),
+                            child: Text(
+                              catName,
+                              style: TextStyle(
+                                color: isSelected
+                                    ? const Color(0xFF4F46E5)
+                                    : Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Row(
@@ -632,11 +743,11 @@ class _UserScreenState extends State<UserScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Koleksi Buku Kami',
+                      'Koleksi Buku',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF1A237E),
+                        color: Color(0xFF0F172A),
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -654,36 +765,43 @@ class _UserScreenState extends State<UserScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: _isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Color(0xFF1A237E),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 40.0),
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Color(0xFF4F46E5),
+                        ),
                       ),
                     ),
                   )
                 : _filteredBooks.isEmpty
                 ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.search_off,
-                          size: 64,
-                          color: Colors.grey.shade300,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Buku tidak ditemukan',
-                          style: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: 16,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 60.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.search_off_rounded,
+                            size: 64,
+                            color: Colors.grey.shade300,
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 16),
+                          Text(
+                            'Buku tidak ditemukan',
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 : GridView.builder(
@@ -691,10 +809,10 @@ class _UserScreenState extends State<UserScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 0.65,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 24,
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.62,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 18,
                         ),
                     itemCount: _filteredBooks.length,
                     itemBuilder: (context, index) {
@@ -712,58 +830,98 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   Widget _buildBookCard(dynamic book, bool isBorrowed, String? imagePath) {
+    final title = book['title'] ?? 'Tanpa Judul';
+    final stock = book['stock'] ?? 0;
+    final isAvailable = stock > 0;
+
     return GestureDetector(
       onTap: () => _showBookDetail(book),
-      child: Card(
-        elevation: 8,
-        shadowColor: Colors.black12,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          border: Border.all(color: Colors.grey.shade100),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(16),
-                  ),
-                ),
-                child: imagePath != null && imagePath.isNotEmpty
-                    ? ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(16),
-                        ),
-                        child: Image.network(
-                          _getImageUrl(imagePath),
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                ),
-                                child: Icon(
-                                  Icons.broken_image,
-                                  size: 40,
-                                  color: Colors.grey.shade400,
-                                ),
+              child: Stack(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade50,
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                    ),
+                    child: imagePath != null && imagePath.isNotEmpty
+                        ? ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(20),
+                            ),
+                            child: Image.network(
+                              _getImageUrl(imagePath),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(
+                                    color: Colors.grey.shade100,
+                                    child: Icon(
+                                      Icons.broken_image_rounded,
+                                      size: 36,
+                                      color: Colors.grey.shade400,
+                                    ),
+                                  ),
+                            ),
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [Colors.indigo.shade50, Colors.indigo.shade100],
                               ),
-                        ),
-                      )
-                    : Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [Colors.blue.shade100, Colors.blue.shade50],
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(20),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.library_books_rounded,
+                              size: 40,
+                              color: const Color(0xFF4F46E5).withOpacity(0.7),
+                            ),
                           ),
-                        ),
-                        child: Icon(
-                          Icons.library_books,
-                          size: 48,
-                          color: Colors.blue.shade700,
+                  ),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: isAvailable
+                            ? const Color(0xFF10B981).withOpacity(0.9)
+                            : const Color(0xFFEF4444).withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        isAvailable ? 'Tersedia' : 'Habis',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -772,11 +930,11 @@ class _UserScreenState extends State<UserScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    book['title'] ?? 'Tanpa Judul',
+                    title,
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 13,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF1A237E),
+                      color: Color(0xFF0F172A),
                       height: 1.3,
                     ),
                     maxLines: 2,
@@ -785,32 +943,42 @@ class _UserScreenState extends State<UserScreen> {
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      Icon(Icons.book, size: 12, color: Colors.amber.shade600),
+                      const Icon(Icons.star_rounded, size: 14, color: Colors.amber),
                       const SizedBox(width: 4),
                       Text(
-                        'Stok: ${book['stock'] ?? '0'}',
+                        '4.8',
                         style: TextStyle(
                           fontSize: 11,
                           color: Colors.grey.shade700,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        '| Stok: $stock',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Colors.grey.shade500,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 10),
                   SizedBox(
                     width: double.infinity,
+                    height: 36,
                     child: ElevatedButton(
                       onPressed: () => _handleBorrowAction(book),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isBorrowed
                             ? const Color(0xFFEF4444)
-                            : const Color(0xFF1A237E),
+                            : const Color(0xFF4F46E5),
                         foregroundColor: Colors.white,
                         elevation: 0,
-                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        padding: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       child: Text(
@@ -834,12 +1002,12 @@ class _UserScreenState extends State<UserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: const Color(0xFFF8FAFC), // Modern Slate Light
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF1A237E), Color(0xFF0A0E2E)], // Premium Blue Indigo Gradient
+              colors: [Color(0xFF4F46E5), Color(0xFF1E1B4B)], // Premium Slate Indigo Gradient
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -851,12 +1019,13 @@ class _UserScreenState extends State<UserScreen> {
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 20,
+            letterSpacing: 0.5,
           ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.white),
+            icon: const Icon(Icons.refresh_rounded, color: Colors.white),
             onPressed: _loadInitialData,
           ),
         ],
@@ -868,29 +1037,59 @@ class _UserScreenState extends State<UserScreen> {
           : _currentIndex == 2
           ? const ProfileScreen()
           : _buildBooksView(),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: const Color(0xFF1A237E),
-        unselectedItemColor: Colors.grey.shade600,
-        elevation: 8,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'Peminjaman',
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 20,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.white,
+            selectedItemColor: const Color(0xFF4F46E5),
+            unselectedItemColor: Colors.grey.shade500,
+            elevation: 0,
+            selectedFontSize: 12,
+            unselectedFontSize: 12,
+            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, height: 1.5),
+            unselectedLabelStyle: const TextStyle(height: 1.5),
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_rounded),
+                label: 'Beranda',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.history_rounded),
+                label: 'Peminjaman',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_rounded),
+                label: 'Profil',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.logout_rounded),
+                label: 'Keluar',
+              ),
+            ],
+            onTap: (index) {
+              if (index == 3) {
+                _handleLogout();
+              } else {
+                setState(() => _currentIndex = index);
+              }
+            },
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
-          BottomNavigationBarItem(icon: Icon(Icons.logout), label: 'Logout'),
-        ],
-        onTap: (index) {
-          if (index == 3) {
-            _handleLogout();
-          } else {
-            setState(() => _currentIndex = index);
-          }
-        },
+        ),
       ),
     );
   }

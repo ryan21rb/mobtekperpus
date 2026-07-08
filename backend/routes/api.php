@@ -29,7 +29,6 @@ use App\Http\Controllers\Api\CategoryController;
 // ===== AUTH ROUTES =====
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/logout', [AuthController::class, 'logout']); 
 
 // ===== MATERI ROUTES (Publik & Manajemen) =====
 Route::get('/materi', [MateriController::class, 'index']);
@@ -77,6 +76,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/admin/activities', [\App\Http\Controllers\Api\SystemActivityController::class, 'index']);
 
     // ===== PEMINJAMAN ROUTES (Khusus User Login) =====
     Route::post('/peminjaman', [PeminjamanController::class, 'store']);

@@ -139,6 +139,8 @@ class AuthService {
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
+              if (_currentUser?.token != null)
+                'Authorization': 'Bearer ${_currentUser!.token}',
             },
           )
           .timeout(const Duration(seconds: 10));

@@ -25,6 +25,15 @@ class AuthController extends Controller
             // Generate Sanctum token untuk authentication
             $token = $user->createToken('auth_token')->plainTextToken;
             
+            // Log Aktivitas Login
+            \App\Models\SystemActivity::create([
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'user_role' => $user->role,
+                'activity_type' => 'LOGIN',
+                'details' => "Pengguna {$user->name} ({$user->email}) berhasil masuk sebagai " . strtoupper($user->role) . "."
+            ]);
+            
             return response()->json([
                 'message' => 'Login Berhasil',
                 'user' => $user,
@@ -77,8 +86,20 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         try {
-            // Simple logout - tidak perlu auth, hanya return success
-            // Token handling bisa ditambah kemudian jika diperlukan
+            $user = $request->user();
+            if ($user) {
+                // Log Aktivitas Logout
+                \App\Models\SystemActivity::create([
+                    'user_id' => $user->id,
+                    'user_name' => $user->name,
+                    'user_role' => $user->role,
+                    'activity_type' => 'LOGOUT',
+                    'details' => "Pengguna {$user->name} ({$user->email}) keluar dari sistem."
+                ]);
+
+                // Revoke Sanctum token
+                $user->currentAccessToken()->delete();
+            }
             
             return response()->json([
                 'message' => 'Logout Berhasil'

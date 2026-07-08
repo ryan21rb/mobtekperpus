@@ -106,19 +106,19 @@ class _PetugasScreenState extends State<PetugasScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TEMA UTAMA: Biru Gelap yang disamain dengan halaman Login & Regis
-    const Color temaBiruGelap = Color(0xFF1A237E);
+    const Color temaIndigo = Color(0xFF4F46E5);
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC), // Modern Slate Light
       appBar: AppBar(
         title: const Text(
           'Perpus - Panel Petugas',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 0.3),
         ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF1A237E), Color(0xFF0A0E2E)], // Premium Blue Indigo Gradient
+              colors: [Color(0xFF4F46E5), Color(0xFF1E1B4B)], // Premium Slate Indigo Gradient
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -131,27 +131,27 @@ class _PetugasScreenState extends State<PetugasScreen> {
       body: _isLoading
           ? const Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(temaBiruGelap),
+                valueColor: AlwaysStoppedAnimation<Color>(temaIndigo),
               ),
             )
           : RefreshIndicator(
               onRefresh: _loadDataPetugas,
-              color: temaBiruGelap,
+              color: temaIndigo,
               child: Column(
                 children: [
                   // 1. HEADER DASHBOARD MINI (Berisi Counter Angka Transaksi)
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Color(0xFF1A237E), Color(0xFF0A0E2E)], // Premium Blue Indigo Gradient
+                        colors: [Color(0xFF4F46E5), Color(0xFF1E1B4B)], // Premium Slate Indigo Gradient
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ),
                       borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
+                        bottomLeft: Radius.circular(28),
+                        bottomRight: Radius.circular(28),
                       ),
                     ),
                     child: Row(
@@ -159,27 +159,36 @@ class _PetugasScreenState extends State<PetugasScreen> {
                         // Kotak Ringkasan Buku Dipinjam
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white.withOpacity(0.12),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: Colors.white.withOpacity(0.15)),
                             ),
                             child: Column(
                               children: [
-                                const Text(
-                                  "SEDANG DIPINJAM",
-                                  style: TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.bookmark_outline_rounded, color: Colors.white.withOpacity(0.8), size: 16),
+                                    const SizedBox(width: 6),
+                                    const Text(
+                                      "DIPINJAM",
+                                      style: TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 4),
+                                const SizedBox(height: 8),
                                 Text(
                                   "$_totalDipinjam Buku",
                                   style: const TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -187,31 +196,40 @@ class _PetugasScreenState extends State<PetugasScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: 16),
                         // Kotak Ringkasan Buku Dikembalikan
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white.withOpacity(0.12),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: Colors.white.withOpacity(0.15)),
                             ),
                             child: Column(
                               children: [
-                                const Text(
-                                  "SUDAH KEMBALI",
-                                  style: TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.check_circle_outline_rounded, color: Colors.white.withOpacity(0.8), size: 16),
+                                    const SizedBox(width: 6),
+                                    const Text(
+                                      "SUDAH KEMBALI",
+                                      style: TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 4),
+                                const SizedBox(height: 8),
                                 Text(
                                   "$_totalKembali Buku",
                                   style: const TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -225,15 +243,15 @@ class _PetugasScreenState extends State<PetugasScreen> {
 
                   // Teks Judul Daftar Transaksi
                   const Padding(
-                    padding: EdgeInsets.only(left: 16, top: 16, bottom: 8),
+                    padding: EdgeInsets.only(left: 20, top: 20, bottom: 10),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Daftar Request Log Peminjaman",
+                        "Log Transaksi Peminjaman",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: temaBiruGelap,
+                          color: Color(0xFF0F172A),
                         ),
                       ),
                     ),
@@ -252,6 +270,7 @@ class _PetugasScreenState extends State<PetugasScreen> {
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 15,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
@@ -260,7 +279,7 @@ class _PetugasScreenState extends State<PetugasScreen> {
                         : ListView.builder(
                             physics: const AlwaysScrollableScrollPhysics(),
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 14,
+                              horizontal: 16,
                               vertical: 6,
                             ),
                             itemCount: _listPeminjaman.length,
@@ -271,153 +290,176 @@ class _PetugasScreenState extends State<PetugasScreen> {
                               final bool isDipinjam =
                                   currentStatus.toLowerCase() == 'dipinjam';
 
-                              return Card(
-                                elevation: 3,
-                                margin: const EdgeInsets.only(bottom: 12),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                              return Container(
+                                margin: const EdgeInsets.only(bottom: 14),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.04),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                  border: Border.all(color: Colors.grey.shade100),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(14),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Trx ID: #${item['id'] ?? '0'}",
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 10,
-                                              vertical: 4,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: isDipinjam
-                                                  ? Colors.orange.withOpacity(
-                                                      0.2,
-                                                    )
-                                                  : Colors.green.withOpacity(
-                                                      0.2,
-                                                    ),
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                            child: Text(
-                                              currentStatus.toUpperCase(),
-                                              style: TextStyle(
-                                                color: isDipinjam
-                                                    ? Colors.orange.shade800
-                                                    : Colors.green.shade800,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 11,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const Divider(height: 20),
-                                      // Baris Informasi Peminjam
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.account_circle,
-                                            color: temaBiruGelap,
-                                            size: 20,
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Text(
-                                            "Anggota: ${item['user_name'] ?? item['user']?['name'] ?? 'Nama Tidak Diketahui'}",
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 6),
-                                      // Baris Informasi Buku
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.menu_book,
-                                            color: temaBiruGelap,
-                                            size: 20,
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Expanded(
-                                            child: Text(
-                                              "Buku: ${item['book_title'] ?? item['materi_title'] ?? 'Judul Tidak Diketahui'}",
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 6),
-                                      // Baris Informasi Tanggal Pinjam
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.date_range,
-                                            color: Colors.grey,
-                                            size: 18,
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Text(
-                                            "Tanggal: ${item['date'] ?? item['tanggal_pinjam'] ?? '-'}",
-                                            style: const TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 13,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 12),
-                                      // Tombol Ubah Status
-                                      Align(
-                                        alignment: Alignment.centerRight,
-                                        child: ElevatedButton.icon(
-                                          onPressed: () => _handleUpdateStatus(
-                                            item['id'],
-                                            currentStatus,
-                                          ),
-                                          icon: Icon(
-                                            isDipinjam
-                                                ? Icons.check_circle_outline
-                                                : Icons.replay,
-                                            size: 16,
-                                          ),
-                                          label: Text(
-                                            isDipinjam
-                                                ? "Konfirmasi Pengembalian"
-                                                : "Set Jadi Dipinjam Lagi",
-                                          ),
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: temaBiruGelap,
-                                            foregroundColor: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 14,
-                                              vertical: 8,
-                                            ),
-                                          ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        left: BorderSide(
+                                          width: 6,
+                                          color: isDipinjam
+                                              ? const Color(0xFF4F46E5)
+                                              : const Color(0xFF10B981),
                                         ),
                                       ),
-                                    ],
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "Trx ID: #${item['id'] ?? '0'}",
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 10,
+                                                  vertical: 4,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: isDipinjam
+                                                      ? const Color(0xFF4F46E5).withOpacity(0.08)
+                                                      : const Color(0xFF10B981).withOpacity(0.08),
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+                                                child: Text(
+                                                  currentStatus.toUpperCase(),
+                                                  style: TextStyle(
+                                                    color: isDipinjam
+                                                        ? const Color(0xFF4F46E5)
+                                                        : const Color(0xFF059669),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 10.5,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const Divider(height: 24),
+                                          // Baris Informasi Peminjam
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.account_circle_outlined,
+                                                color: Colors.grey.shade600,
+                                                size: 20,
+                                              ),
+                                              const SizedBox(width: 8),
+                                              Text(
+                                                "Anggota: ${item['user_name'] ?? item['user']?['name'] ?? 'Nama Tidak Diketahui'}",
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14,
+                                                  color: Color(0xFF334155),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 8),
+                                          // Baris Informasi Buku
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.menu_book_rounded,
+                                                color: Colors.grey.shade600,
+                                                size: 20,
+                                              ),
+                                              const SizedBox(width: 8),
+                                              Expanded(
+                                                child: Text(
+                                                  "Buku: ${item['book_title'] ?? item['materi_title'] ?? 'Judul Tidak Diketahui'}",
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    color: Color(0xFF334155),
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 8),
+                                          // Baris Informasi Tanggal Pinjam
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.date_range_outlined,
+                                                color: Colors.grey.shade500,
+                                                size: 18,
+                                              ),
+                                              const SizedBox(width: 8),
+                                              Text(
+                                                "Tanggal: ${item['date'] ?? item['tanggal_pinjam'] ?? '-'}",
+                                                style: const TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 16),
+                                          // Tombol Ubah Status
+                                          Align(
+                                            alignment: Alignment.centerRight,
+                                            child: ElevatedButton.icon(
+                                              onPressed: () => _handleUpdateStatus(
+                                                item['id'],
+                                                currentStatus,
+                                              ),
+                                              icon: Icon(
+                                                isDipinjam
+                                                    ? Icons.check_circle_outline_rounded
+                                                    : Icons.replay_rounded,
+                                                size: 16,
+                                              ),
+                                              label: Text(
+                                                isDipinjam
+                                                    ? "Konfirmasi Pengembalian"
+                                                    : "Set Jadi Dipinjam Lagi",
+                                                style: const TextStyle(fontWeight: FontWeight.bold),
+                                              ),
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: temaIndigo,
+                                                foregroundColor: Colors.white,
+                                                elevation: 0,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 16,
+                                                  vertical: 10,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
                               );

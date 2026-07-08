@@ -100,23 +100,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(24),
           ),
           title: Row(
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF1A237E).withOpacity(0.1),
+                  color: const Color(0xFF4F46E5).withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.person_outline, color: Color(0xFF1A237E), size: 24),
+                child: const Icon(Icons.person_outline_rounded, color: Color(0xFF4F46E5), size: 24),
               ),
               const SizedBox(width: 12),
               const Expanded(
                 child: Text(
                   'Edit Profil',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF0F172A)),
                 ),
               ),
             ],
@@ -127,17 +127,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
               TextField(
                 controller: nameController,
                 decoration: InputDecoration(
-                  labelText: 'Nama',
-                  prefixIcon: const Icon(Icons.person, color: Color(0xFF1A237E)),
+                  labelText: 'Nama Lengkap',
+                  labelStyle: const TextStyle(color: Colors.grey),
+                  prefixIcon: const Icon(Icons.person_outline_rounded, color: Color(0xFF4F46E5)),
                   filled: true,
                   fillColor: Colors.grey.shade50,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: BorderSide(color: Colors.grey.shade200),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: BorderSide(color: Colors.grey.shade200),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Color(0xFF1A237E), width: 2),
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: const BorderSide(color: Color(0xFF4F46E5), width: 1.5),
                   ),
                 ),
               ),
@@ -145,23 +150,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
               TextField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  labelText: 'Email',
-                  prefixIcon: const Icon(Icons.email, color: Color(0xFF1A237E)),
+                  labelText: 'Alamat Email',
+                  labelStyle: const TextStyle(color: Colors.grey),
+                  prefixIcon: const Icon(Icons.email_outlined, color: Color(0xFF4F46E5)),
                   filled: true,
                   fillColor: Colors.grey.shade50,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: BorderSide(color: Colors.grey.shade200),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: BorderSide(color: Colors.grey.shade200),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Color(0xFF1A237E), width: 2),
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: const BorderSide(color: Color(0xFF4F46E5), width: 1.5),
                   ),
                 ),
               ),
             ],
           ),
-          actionsPadding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
+          actionsPadding: const EdgeInsets.only(bottom: 20, right: 20, left: 20),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -173,10 +183,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1A237E),
+                backgroundColor: const Color(0xFF4F46E5),
                 foregroundColor: Colors.white,
                 elevation: 0,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -236,13 +246,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
-        title: const Text('Profil Saya'),
+        title: const Text(
+          'Profil Saya',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 0.3),
+        ),
         centerTitle: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF1A237E), Color(0xFF0A0E2E)], // Premium Blue Indigo Gradient
+              colors: [Color(0xFF4F46E5), Color(0xFF1E1B4B)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -252,7 +266,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0,
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF4F46E5)),
+              ),
+            )
           : _userData == null
           ? _buildNotLoginView()
           : _buildProfileView(),
@@ -264,12 +282,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.lock, size: 60, color: Colors.grey),
+          Icon(Icons.lock_outline_rounded, size: 64, color: Colors.grey.shade300),
           const SizedBox(height: 16),
           const Text(
             "Sesi login tidak ditemukan.\nSilakan login kembali.",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16, color: Colors.grey),
+            style: TextStyle(fontSize: 15, color: Colors.grey, fontWeight: FontWeight.w500),
           ),
         ],
       ),
@@ -284,34 +302,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Header dengan info user
+          // Elegant Header Profile Card
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF1A237E), Color(0xFF0A0E2E)], // Premium Blue Indigo Gradient
+                colors: [Color(0xFF4F46E5), Color(0xFF1E1B4B)],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(32),
+                bottomRight: Radius.circular(32),
+              ),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 36),
+            padding: const EdgeInsets.symmetric(vertical: 40),
             child: Column(
               children: [
                 CircleAvatar(
-                  radius: 54,
-                  backgroundColor: Colors.white.withOpacity(0.2),
-                  child: const CircleAvatar(
+                  radius: 56,
+                  backgroundColor: Colors.white.withOpacity(0.12),
+                  child: CircleAvatar(
                     radius: 50,
                     backgroundColor: Colors.white,
-                    child: Icon(Icons.person_rounded, size: 56, color: Color(0xFF1A237E)),
+                    child: Text(
+                      (_userData?['name'] ?? 'U').toString().isNotEmpty
+                          ? _userData!['name'][0].toUpperCase()
+                          : 'U',
+                      style: const TextStyle(
+                        color: Color(0xFF4F46E5),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 32,
+                      ),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 18),
                 Text(
                   _userData!['name'] ?? 'User',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 0.5,
                   ),
@@ -319,25 +350,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(height: 6),
                 Text(
                   _userData!['email'] ?? '',
-                  style: const TextStyle(color: Colors.white70, fontSize: 14),
+                  style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 13),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 14),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white24,
+                    color: Colors.white.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.white30, width: 1),
+                    border: Border.all(color: Colors.white24, width: 1),
                   ),
                   child: Text(
                     role.toUpperCase(),
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 12,
+                      fontSize: 11,
                       letterSpacing: 1.0,
                     ),
                   ),
@@ -346,58 +377,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
           if (isAdminOrPetugas) ...[
             // Tampilan profil admin / petugas
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 children: [
                   // Detail Info Card
-                  Card(
-                    elevation: 3,
-                    shadowColor: Colors.black.withOpacity(0.1),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Informasi Akun',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1A237E),
-                            ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.04),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                      border: Border.all(color: Colors.grey.shade100),
+                    ),
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Informasi Akun',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF4F46E5),
                           ),
-                          const SizedBox(height: 16),
-                          _buildProfileRow('Nama Lengkap', _userData!['name'] ?? '-'),
-                          const Divider(height: 24),
-                          _buildProfileRow('Alamat Email', _userData!['email'] ?? '-'),
-                          const Divider(height: 24),
-                          _buildProfileRow('Hak Akses', role.toUpperCase()),
-                          const Divider(height: 24),
-                          _buildProfileRow('Status Akun', 'Aktif'),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 20),
+                        _buildProfileRow('Nama Lengkap', _userData!['name'] ?? '-'),
+                        const Divider(height: 24, thickness: 0.5),
+                        _buildProfileRow('Alamat Email', _userData!['email'] ?? '-'),
+                        const Divider(height: 24, thickness: 0.5),
+                        _buildProfileRow('Hak Akses', role.toUpperCase()),
+                        const Divider(height: 24, thickness: 0.5),
+                        _buildProfileRow('Status Akun', 'Aktif'),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
 
                   // Responsibilities Info Card
-                  Card(
-                    elevation: 3,
-                    shadowColor: Colors.black.withOpacity(0.1),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.04),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                      border: Border.all(color: Colors.grey.shade100),
+                    ),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(20),
                         gradient: LinearGradient(
                           colors: role == 'admin'
-                              ? [const Color(0xFF1A237E).withOpacity(0.08), const Color(0xFF3F51B5).withOpacity(0.03)]
-                              : [const Color(0xFF00796B).withOpacity(0.08), const Color(0xFF009688).withOpacity(0.03)],
+                              ? [const Color(0xFF4F46E5).withOpacity(0.06), const Color(0xFF4F46E5).withOpacity(0.01)]
+                              : [const Color(0xFF10B981).withOpacity(0.06), const Color(0xFF10B981).withOpacity(0.01)],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
@@ -409,8 +456,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             Icon(
                               role == 'admin' ? Icons.security_rounded : Icons.admin_panel_settings_rounded,
-                              color: role == 'admin' ? const Color(0xFF1A237E) : const Color(0xFF00796B),
-                              size: 32,
+                              color: role == 'admin' ? const Color(0xFF4F46E5) : const Color(0xFF10B981),
+                              size: 30,
                             ),
                             const SizedBox(width: 16),
                             Expanded(
@@ -422,7 +469,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
-                                      color: role == 'admin' ? const Color(0xFF1A237E) : const Color(0xFF00796B),
+                                      color: role == 'admin' ? const Color(0xFF4F46E5) : const Color(0xFF059669),
                                     ),
                                   ),
                                   const SizedBox(height: 8),
@@ -451,22 +498,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Tampilan profil user biasa (peminjam)
             if (_statsData != null) ...[
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12),
                 child: _buildStatsCards(),
               ),
             ],
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
                     _buildTabButton('Profil', 0),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 10),
                     _buildTabButton('Peminjaman Aktif', 1),
-                    const SizedBox(width: 8),
-                    _buildTabButton('Riwayat', 2),
+                    const SizedBox(width: 10),
+                    _buildTabButton('Riwayat Peminjaman', 2),
                   ],
                 ),
               ),
@@ -475,33 +522,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 16),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: _buildTabContent(),
             ),
           ],
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 32),
 
           // Edit Profile Button
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: SizedBox(
               width: double.infinity,
-              height: 50,
+              height: 48,
               child: ElevatedButton.icon(
                 onPressed: _editProfile,
-                icon: const Icon(Icons.edit, color: Colors.white),
+                icon: const Icon(Icons.edit_rounded, color: Colors.white, size: 18),
                 label: const Text(
                   'EDIT PROFIL',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    letterSpacing: 1.0,
+                    letterSpacing: 0.5,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1A237E),
+                  backgroundColor: const Color(0xFF4F46E5),
+                  elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -510,7 +558,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 40),
         ],
       ),
     );
@@ -521,19 +569,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         Expanded(
           child: _buildStatCard(
-            title: 'Total Peminjaman',
-            value: '${_statsData?['total_borrowings'] ?? 0}',
-            icon: Icons.book,
-            color: Colors.blue,
+            title: 'Peminjaman',
+            value: '${_statsData?['total_borrowings'] ?? 0} Buku',
+            icon: Icons.bookmark_added_outlined,
+            color: const Color(0xFF4F46E5),
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 16),
         Expanded(
           child: _buildStatCard(
             title: 'Total Denda',
-            value: 'Rp ${_statsData?['total_fines'] ?? 0}',
-            icon: Icons.attach_money,
-            color: Colors.orange,
+            value: 'Rp ${_statsData?['total_fines']?.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => '.') ?? '0'}',
+            icon: Icons.monetization_on_outlined,
+            color: Colors.orange.shade700,
           ),
         ),
       ],
@@ -546,31 +594,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required IconData icon,
     required Color color,
   }) {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(icon, color: color, size: 28),
-            const SizedBox(height: 12),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+        border: Border.all(color: Colors.grey.shade100),
+      ),
+      padding: const EdgeInsets.all(18.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              shape: BoxShape.circle,
             ),
-            const SizedBox(height: 4),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            child: Icon(icon, color: color, size: 22),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: color,
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            title,
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade500, fontWeight: FontWeight.w500),
+          ),
+        ],
       ),
     );
   }
@@ -580,16 +643,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return GestureDetector(
       onTap: () => setState(() => _selectedTabIndex = index),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF1A237E) : Colors.grey[200],
+          color: isSelected ? const Color(0xFF4F46E5) : Colors.grey[100],
           borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected ? Colors.transparent : Colors.grey.shade200,
+          ),
         ),
         child: Text(
           label,
           style: TextStyle(
-            color: isSelected ? Colors.white : Colors.grey[700],
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            color: isSelected ? Colors.white : Colors.grey[600],
+            fontWeight: FontWeight.bold,
             fontSize: 13,
           ),
         ),
@@ -611,23 +677,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildProfileTab() {
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            _buildProfileRow('Nama', _userData!['name'] ?? '-'),
-            const Divider(),
-            _buildProfileRow('Email', _userData!['email'] ?? '-'),
-            const Divider(),
-            _buildProfileRow(
-              'Role',
-              (_userData!['role'] ?? 'user').toString().toUpperCase(),
-            ),
-          ],
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+        border: Border.all(color: Colors.grey.shade100),
+      ),
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        children: [
+          _buildProfileRow('Nama', _userData!['name'] ?? '-'),
+          const Divider(height: 24, thickness: 0.5),
+          _buildProfileRow('Email', _userData!['email'] ?? '-'),
+          const Divider(height: 24, thickness: 0.5),
+          _buildProfileRow(
+            'Role Akses',
+            (_userData!['role'] ?? 'user').toString().toUpperCase(),
+          ),
+        ],
       ),
     );
   }
@@ -638,14 +712,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            color: Colors.grey,
-            fontWeight: FontWeight.w500,
+          style: TextStyle(
+            color: Colors.grey.shade500,
+            fontWeight: FontWeight.w600,
           ),
         ),
         Text(
           value,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF0F172A)),
         ),
       ],
     );
@@ -653,40 +727,80 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildCurrentBorrowingsTab() {
     if (_currentBorrowings.isEmpty) {
-      return Card(
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            children: [
-              Icon(Icons.inbox, size: 64, color: Colors.grey[300]),
-              const SizedBox(height: 12),
-              const Text(
-                'Tidak ada buku yang sedang dipinjam',
-                style: TextStyle(color: Colors.grey, fontSize: 14),
-              ),
-            ],
-          ),
+      return Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.grey.shade100),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20),
+        child: Column(
+          children: [
+            Icon(Icons.inbox_outlined, size: 64, color: Colors.grey[300]),
+            const SizedBox(height: 12),
+            const Text(
+              'Tidak ada buku yang sedang dipinjam',
+              style: TextStyle(color: Colors.grey, fontSize: 13, fontWeight: FontWeight.w500),
+            ),
+          ],
         ),
       );
     }
 
     return Column(
       children: _currentBorrowings.map((borrowing) {
-        return Card(
-          margin: const EdgeInsets.only(bottom: 12),
-          elevation: 1,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          child: ListTile(
-            leading: const Icon(Icons.book, color: Colors.blue),
-            title: Text(
-              borrowing['materi_title'] ?? borrowing['title'] ?? 'Materi',
-              style: const TextStyle(fontWeight: FontWeight.bold),
+        final status = borrowing['status'] ?? 'dipinjam';
+        return Container(
+          margin: const EdgeInsets.only(bottom: 14),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.03),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+            border: Border.all(color: Colors.grey.shade100),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                  left: BorderSide(
+                    color: Color(0xFF4F46E5),
+                    width: 5,
+                  ),
+                ),
+              ),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                leading: const Icon(Icons.bookmark_outline_rounded, color: Color(0xFF4F46E5), size: 24),
+                title: Text(
+                  borrowing['materi_title'] ?? borrowing['title'] ?? 'Materi',
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF0F172A)),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: RichText(
+                    text: TextSpan(
+                      style: TextStyle(fontSize: 12, color: Colors.grey.shade600, height: 1.4),
+                      children: [
+                        const TextSpan(text: 'Dipinjam: '),
+                        TextSpan(text: borrowing['tanggal_peminjaman'] ?? '-', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w500)),
+                        const TextSpan(text: '\nJatuh Tempo: '),
+                        TextSpan(text: borrowing['due_date'] ?? '-', style: const TextStyle(color: Colors.red, fontWeight: FontWeight.w500)),
+                      ],
+                    ),
+                  ),
+                ),
+                isThreeLine: true,
+                trailing: _buildStatusBadge(status),
+              ),
             ),
-            subtitle: Text(
-              'Dipinjam: ${borrowing['tanggal_peminjaman'] ?? '-'}\nJatuh Tempo: ${borrowing['due_date'] ?? '-'}',
-            ),
-            isThreeLine: true,
-            trailing: _buildStatusBadge(borrowing['status'] ?? 'dipinjam'),
           ),
         );
       }).toList(),
@@ -695,19 +809,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildHistoryTab() {
     if (_borrowingHistory.isEmpty) {
-      return Card(
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            children: [
-              Icon(Icons.history, size: 64, color: Colors.grey[300]),
-              const SizedBox(height: 12),
-              const Text(
-                'Belum ada riwayat peminjaman',
-                style: TextStyle(color: Colors.grey, fontSize: 14),
-              ),
-            ],
-          ),
+      return Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.grey.shade100),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 20),
+        child: Column(
+          children: [
+            Icon(Icons.history_toggle_off_rounded, size: 64, color: Colors.grey[300]),
+            const SizedBox(height: 12),
+            const Text(
+              'Belum ada riwayat peminjaman',
+              style: TextStyle(color: Colors.grey, fontSize: 13, fontWeight: FontWeight.w500),
+            ),
+          ],
         ),
       );
     }
@@ -717,34 +835,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
         bool isLate = history['is_late'] ?? false;
         int fine = history['denda'] ?? 0;
 
-        return Card(
-          margin: const EdgeInsets.only(bottom: 12),
-          elevation: 1,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          child: ListTile(
-            leading: const Icon(Icons.book_outlined, color: Colors.green),
-            title: Text(
-              history['materi_title'] ?? history['title'] ?? 'Materi',
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Dikembalikan: ${history['returned_at'] ?? '-'}'),
-                if (isLate) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    'Denda: Rp $fine',
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
+        return Container(
+          margin: const EdgeInsets.only(bottom: 14),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.03),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+            border: Border.all(color: Colors.grey.shade100),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                  left: BorderSide(
+                    color: Color(0xFF10B981),
+                    width: 5,
                   ),
-                ],
-              ],
+                ),
+              ),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                leading: const Icon(Icons.menu_book_rounded, color: Color(0xFF10B981), size: 24),
+                title: Text(
+                  history['materi_title'] ?? history['title'] ?? 'Materi',
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF0F172A)),
+                ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 6.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Dikembalikan: ${history['returned_at'] ?? '-'}',
+                        style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                      ),
+                      if (isLate) ...[
+                        const SizedBox(height: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.red.shade50,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            'Denda Terbayar: Rp $fine',
+                            style: const TextStyle(
+                              color: Color(0xFFEF4444),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                isThreeLine: isLate,
+                trailing: _buildStatusBadge(history['status'] ?? 'dikembalikan'),
+              ),
             ),
-            isThreeLine: isLate,
-            trailing: _buildStatusBadge(history['status'] ?? 'dikembalikan'),
           ),
         );
       }).toList(),
@@ -757,15 +913,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     switch (status.toLowerCase()) {
       case 'dipinjam':
-        color = Colors.blue;
+        color = const Color(0xFF4F46E5);
         label = 'Dipinjam';
         break;
       case 'dikembalikan':
-        color = Colors.green;
-        label = 'Dikembalikan';
+        color = const Color(0xFF10B981);
+        label = 'Kembali';
         break;
       case 'pending_kembali':
-        color = Colors.orange;
+        color = const Color(0xFFF59E0B);
         label = 'Menunggu';
         break;
       default:
@@ -776,7 +932,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withAlpha(50),
+        color: color.withOpacity(0.08),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
@@ -784,7 +940,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         style: TextStyle(
           color: color,
           fontWeight: FontWeight.bold,
-          fontSize: 12,
+          fontSize: 11,
         ),
       ),
     );

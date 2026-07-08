@@ -70,22 +70,22 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setModalState) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Row(
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF1A237E).withOpacity(0.1),
+                  color: const Color(0xFF4F46E5).withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.av_timer, color: Color(0xFF1A237E), size: 24),
+                child: const Icon(Icons.av_timer_rounded, color: Color(0xFF4F46E5), size: 24),
               ),
               const SizedBox(width: 12),
               const Expanded(
                 child: Text(
                   'Perpanjang Buku',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF0F172A)),
                 ),
               ),
             ],
@@ -97,9 +97,9 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
               children: [
                 Text(
                   bookTitle,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF334155)),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 18),
                 const Text(
                   'Durasi Perpanjangan',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.black54),
@@ -108,8 +108,21 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
                 DropdownButtonFormField<int>(
                   value: selectedDays,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(color: Colors.grey.shade200),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(color: Colors.grey.shade200),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xFF4F46E5), width: 1.5),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    filled: true,
+                    fillColor: Colors.grey.shade50,
                   ),
                   items: [3, 7, 10, 14].map((int value) {
                     return DropdownMenuItem<int>(
@@ -125,7 +138,7 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
                     }
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 18),
                 const Text(
                   'Alasan Perpanjangan (Opsional)',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.black54),
@@ -136,12 +149,28 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
                   maxLines: 2,
                   decoration: InputDecoration(
                     hintText: 'Tulis alasan Anda di sini...',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(color: Colors.grey.shade200),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(color: Colors.grey.shade200),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: Color(0xFF4F46E5), width: 1.5),
+                    ),
+                    contentPadding: const EdgeInsets.all(16),
+                    filled: true,
+                    fillColor: Colors.grey.shade50,
                   ),
                 ),
               ],
             ),
           ),
+          actionsPadding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -174,9 +203,10 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1A237E),
+                backgroundColor: const Color(0xFF4F46E5),
                 foregroundColor: Colors.white,
                 elevation: 0,
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
               child: const Text('Kirim Permintaan', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -221,7 +251,7 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
   Color _getStatusBgColor(String status) {
     switch (status.toLowerCase()) {
       case 'dipinjam':
-        return const Color(0xFF1A237E).withOpacity(0.05);
+        return const Color(0xFF4F46E5).withOpacity(0.08);
       case 'pending_kembali':
         return Colors.orange.shade50;
       case 'dikembalikan':
@@ -235,6 +265,7 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC), // Modern Slate Light
       appBar: AppBar(
         title: const Text(
           'Riwayat Peminjaman',
@@ -243,13 +274,14 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF1A237E), Color(0xFF0A0E2E)], // Premium Blue Indigo Gradient
+              colors: [Color(0xFF4F46E5), Color(0xFF1E1B4B)], // Premium Slate Indigo Gradient
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
+        elevation: 0,
       ),
       body: FutureBuilder<List<dynamic>>(
         future: _peminjamanList,
@@ -257,7 +289,7 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1A237E)),
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF4F46E5)),
               ),
             );
           }
@@ -265,32 +297,46 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
           if (snapshot.hasError) {
             return Center(
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  'Terjadi gangguan data backend (Error 500).\nPastikan query join tabel Peminjaman ke tabel Materi sudah benar.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.red.shade700,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.cloud_off_rounded, size: 60, color: Colors.red.shade300),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Gagal memuat data dari server.\nPastikan koneksi internet aktif dan backend berjalan.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.red.shade700,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text(
-                'Belum ada riwayat peminjaman materi.',
-                style: TextStyle(color: Colors.grey, fontSize: 15),
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.inbox_outlined, size: 64, color: Colors.grey.shade300),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Belum ada riwayat peminjaman materi.',
+                    style: TextStyle(color: Colors.grey, fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
+                ],
               ),
             );
           }
 
           final peminjamans = snapshot.data!;
           return ListView.builder(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(18),
             itemCount: peminjamans.length,
             itemBuilder: (context, index) {
               final pem = peminjamans[index];
@@ -308,7 +354,6 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
                 title = pem['book']['title'];
               }
 
-              // Hitung estimasi denda jika sedang dipinjam/pending dan terlambat
               int estimatedFine = 0;
               bool isOverdue = false;
               if (status.toLowerCase() == 'dipinjam' || status.toLowerCase() == 'pending_kembali') {
@@ -320,158 +365,190 @@ class _UserPeminjamanScreenState extends State<UserPeminjamanScreen> {
 
               final bool showReturnButton = status.toLowerCase() == 'dipinjam';
 
-              return Card(
-                margin: const EdgeInsets.only(bottom: 12),
-                elevation: 2,
-                shadowColor: Colors.black12,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+              return Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                  border: Border.all(color: Colors.grey.shade100),
                 ),
-                color: Colors.white,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border(
                         left: BorderSide(
                           width: 6,
                           color: isOverdue
-                              ? Colors.red
+                              ? const Color(0xFFEF4444)
                               : (status.toLowerCase() == 'dipinjam'
-                                  ? const Color(0xFF1A237E)
+                                  ? const Color(0xFF4F46E5)
                                   : (status.toLowerCase() == 'pending_kembali'
-                                        ? Colors.orange
-                                        : Colors.green)),
+                                        ? const Color(0xFFF59E0B)
+                                        : const Color(0xFF10B981))),
                         ),
                       ),
                     ),
                     child: ListTile(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  title: Text(
-                    title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Color(0xFF1A237E),
-                    ),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 6),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getStatusBgColor(status),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          _getStatusColor(status),
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: status.toLowerCase() == 'dipinjam'
-                                ? const Color(0xFF1A237E)
-                                : (status.toLowerCase() == 'pending_kembali'
-                                      ? Colors.orange.shade800
-                                      : Colors.green.shade800),
-                          ),
-                        ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 10,
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Jatuh Tempo: $dueDate',
+                      title: Text(
+                        title,
                         style: const TextStyle(
-                          fontSize: 13,
-                          color: Colors.black54,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Color(0xFF0F172A),
                         ),
                       ),
-                      if (denda > 0) ...[
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            const Icon(Icons.warning, color: Colors.red, size: 16),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Denda: Rp${denda.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => '.')}',
-                              style: const TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                              ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
                             ),
-                          ],
-                        ),
-                      ] else if (isOverdue) ...[
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            const Icon(Icons.report_problem, color: Colors.orange, size: 16),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Estimasi Denda: Rp${estimatedFine.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => '.')}',
+                            decoration: BoxDecoration(
+                              color: _getStatusBgColor(status),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              _getStatusColor(status),
                               style: TextStyle(
-                                color: Colors.orange.shade800,
+                                fontSize: 11,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                                color: status.toLowerCase() == 'dipinjam'
+                                    ? const Color(0xFF4F46E5)
+                                    : (status.toLowerCase() == 'pending_kembali'
+                                          ? const Color(0xFFD97706)
+                                          : const Color(0xFF059669)),
                               ),
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 2),
-                        const Text(
-                          'Segera kembalikan buku ke perpustakaan untuk membatasi denda.',
-                          style: TextStyle(fontSize: 11, color: Colors.redAccent, fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                      if (showReturnButton) ...[
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton.icon(
-                              onPressed: () => _requestExtension(pem['id'], title),
-                              icon: const Icon(Icons.av_timer, size: 16),
-                              label: const Text(
-                                'Perpanjang',
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                              ),
-                              style: TextButton.styleFrom(
-                                foregroundColor: const Color(0xFF1A237E),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            ElevatedButton(
-                              onPressed: () => _requestReturn(pem['id']),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.orange,
-                                foregroundColor: Colors.white,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              ),
-                              child: const Text(
-                                'Kembalikan',
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Icon(Icons.calendar_today_rounded, size: 14, color: Colors.grey.shade500),
+                              const SizedBox(width: 6),
+                              Text(
+                                'Jatuh Tempo: $dueDate',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
+                                  fontSize: 13,
+                                  color: Colors.grey.shade600,
+                                  fontWeight: FontWeight.w500,
                                 ),
+                              ),
+                            ],
+                          ),
+                          if (denda > 0) ...[
+                            const SizedBox(height: 8),
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.red.shade50,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.warning_amber_rounded, color: Color(0xFFEF4444), size: 18),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'Denda: Rp${denda.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => '.')}',
+                                    style: const TextStyle(
+                                      color: Color(0xFFEF4444),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ] else if (isOverdue) ...[
+                            const SizedBox(height: 8),
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.amber.shade50,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.report_problem_outlined, color: Colors.amber.shade800, size: 18),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'Estimasi Denda: Rp${estimatedFine.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (m) => '.')}',
+                                        style: TextStyle(
+                                          color: Colors.amber.shade900,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  const Text(
+                                    'Segera kembalikan buku ke perpustakaan untuk membatasi denda.',
+                                    style: TextStyle(fontSize: 11, color: Colors.redAccent, fontWeight: FontWeight.w500),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
-                        ),
-                      ],
-                    ],
-                  ),
-                  trailing: null,
+                          if (showReturnButton) ...[
+                            const SizedBox(height: 16),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton.icon(
+                                  onPressed: () => _requestExtension(pem['id'], title),
+                                  icon: const Icon(Icons.av_timer_rounded, size: 16),
+                                  label: const Text(
+                                    'Perpanjang',
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                                  ),
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: const Color(0xFF4F46E5),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                ElevatedButton(
+                                  onPressed: () => _requestReturn(pem['id']),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFFF59E0B),
+                                    foregroundColor: Colors.white,
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                  ),
+                                  child: const Text(
+                                    'Kembalikan',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

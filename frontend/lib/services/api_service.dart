@@ -1193,5 +1193,28 @@ class ApiService {
       return false;
     }
   }
+
+  Future<List<dynamic>> getSystemActivities(String token) async {
+    try {
+      final response = await http.get(
+        Uri.parse("$baseUrl/admin/activities"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
+        if (data['success'] == true) {
+          return data['data'] ?? [];
+        }
+      }
+      return [];
+    } catch (e) {
+      print("Error getSystemActivities: $e");
+      return [];
+    }
+  }
 }
 
